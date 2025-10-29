@@ -2,6 +2,8 @@ from flask import Flask, render_template, request
 import pickle
 import numpy as np
 from tensorflow import keras
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 # Initialize Flask app
 app = Flask(__name__)
