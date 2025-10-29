@@ -1,181 +1,187 @@
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#000000" />
-        <meta name="description" content="A product of emergent.sh" />
-        <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-        <!--
-      Notice the use of  in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+<head>
+    <meta charset="UTF-8">
+    <title>🏏 IPL Score Predictor</title>
 
-      Unlike "/favicon.ico" or "favicon.ico", "/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-        <title>Emergent | Fullstack App</title>
-        <script src="https://assets.emergent.sh/scripts/emergent-main.js"></script>
-        <!--
-        These two scripts have been added for the testing, please do not edit or remove them
-        -->
-        <script src="https://unpkg.com/rrweb@latest/dist/rrweb.min.js"></script>
-        <script src="https://d2adkz2s9zrlge.cloudfront.net/rrweb-recorder-20250919-1.js"></script>
-        <!--
-        These two scripts have been added for the Visual Edits, please do not edit or remove them
-        -->
-        <script>
-            // Only load visual edit scripts when inside an iframe and visual edits are enabled
-            if (window.self !== window.top && 'false' === 'true') {
-                // Load debug monitor script
-                var debugScript = document.createElement('script');
-                debugScript.src = 'https://assets.emergent.sh/scripts/debug-monitor.js';
-                document.head.appendChild(debugScript);
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-                // Configure Tailwind
-                window.tailwind = window.tailwind || {};
-                tailwind.config = {
-                    corePlugins: { preflight: false },
-                };
+    <!-- jQuery and Select2 for searchable dropdowns -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-                // Load Tailwind CDN
-                var tailwindScript = document.createElement('script');
-                tailwindScript.src = 'https://cdn.tailwindcss.com';
-                document.head.appendChild(tailwindScript);
-            }
-        </script>
-    <script defer src="/static/js/bundle.js"></script></head>
-    <body>
-        <noscript>You need to enable JavaScript to run this app.</noscript>
-        <div id="root"></div>
-        <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <style>
+        body {
+            background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            padding: 40px;
+        }
+/* 🌙 Base select box */
+.select2-container--default .select2-selection--single {
+    background: rgba(20, 20, 20, 0.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    border-radius: 10px !important;
+    height: 42px !important;
+    color: #fff !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;  /* ✅ centers text horizontally */
+    text-align: center !important; /* ✅ ensures centered text */
+    transition: all 0.3s ease-in-out;
+}
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+.select2-container--default .select2-selection--single:hover {
+    background: rgba(40, 40, 40, 0.7) !important;
+    border-color: rgba(255, 75, 43, 0.4) !important;
+}
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-        <a
-            id="emergent-badge"
-            target="_blank"
-            href="https://app.emergent.sh/?utm_source=emergent-badge"
-            style="
-                display: flex !important;
-                align-items: center !important;
-                position: fixed !important;
-                bottom: 20px;
-                right: 20px;
-                text-decoration: none;
-                padding: 6px 10px;
-                font-family: -apple-system, BlinkMacSystemFont,
-                    &quot;Segoe UI&quot;, Roboto, Oxygen, Ubuntu, Cantarell,
-                    &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;,
-                    sans-serif !important;
-                font-size: 12px !important;
-                z-index: 9999 !important;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
-                border-radius: 8px !important;
-                background-color: #ffffff !important;
-                border: 1px solid rgba(255, 255, 255, 0.25) !important;
-            "
-        >
-            <div
-                style="display: flex; flex-direction: row; align-items: center"
-            >
-                <img
-                    style="width: 20px; height: 20px; margin-right: 8px"
-                    src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4"
-                />
-                <p
-                    style="
-                        color: #000000;
-                        font-family: -apple-system, BlinkMacSystemFont,
-                            &quot;Segoe UI&quot;, Roboto, Oxygen, Ubuntu,
-                            Cantarell, &quot;Open Sans&quot;,
-                            &quot;Helvetica Neue&quot;, sans-serif !important;
-                        font-size: 12px !important;
-                        align-items: center;
-                        margin-bottom: 0;
-                    "
-                >
-                    Made with Emergent
-                </p>
+/* 🌈 Text inside select box */
+.select2-container--default .select2-selection__rendered {
+    color: #fff !important;
+    text-align: center !important;  /* ✅ center inside rendered text */
+    width: 100%;
+    line-height: 40px !important;
+    padding: 0 !important;
+}
+
+/* Dropdown arrow */
+.select2-container--default .select2-selection__arrow {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* 🎞 Dropdown panel */
+.select2-dropdown {
+    background: rgba(10, 10, 10, 0.7) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 10px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+
+/* Centered options */
+.select2-results__option {
+    color: #fff !important;
+    background: transparent !important;
+    padding: 8px 12px !important;
+    text-align: center !important;  /* ✅ center each option */
+    transition: background 0.2s ease-in-out;
+}
+
+/* Highlight and selection colors */
+.select2-results__option--highlighted {
+    background: rgba(225, 29, 72, 0.8) !important;
+    color: #fff !important;
+    border-radius: 5px;
+}
+
+.select2-results__option[aria-selected=true] {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #fff !important;
+}
+
+/* 🔍 Search input */
+.select2-search--dropdown .select2-search__field {
+    background: rgba(25, 25, 25, 0.6) !important;
+    color: #fff !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 6px !important;
+    padding: 6px 10px !important;
+    backdrop-filter: blur(6px) !important;
+    text-align: center !important; /* ✅ centers typed text */
+}
+
+.select2-search--dropdown .select2-search__field::placeholder {
+    color: #aaa !important;
+}
+
+
+</style>
+</head>
+<body>
+
+    <h1 class="text-3xl font-bold mb-6 text-red-500">🏏 IPL Score Predictor</h1>
+
+    <div class="container">
+        <form method="POST" class="space-y-4">
+            <div>
+                <label class="block mb-1 text-gray-400">Venue</label>
+                <select name="venue" class="select w-full">
+                    {% for v in venues %}<option>{{ v }}</option>{% endfor %}
+                </select>
             </div>
-        </a>
-        <script>
-            !(function (t, e) {
-                var o, n, p, r;
-                e.__SV ||
-                    ((window.posthog = e),
-                    (e._i = []),
-                    (e.init = function (i, s, a) {
-                        function g(t, e) {
-                            var o = e.split(".");
-                            2 == o.length && ((t = t[o[0]]), (e = o[1])),
-                                (t[e] = function () {
-                                    t.push(
-                                        [e].concat(
-                                            Array.prototype.slice.call(
-                                                arguments,
-                                                0,
-                                            ),
-                                        ),
-                                    );
-                                });
-                        }
-                        ((p = t.createElement("script")).type =
-                            "text/javascript"),
-                            (p.crossOrigin = "anonymous"),
-                            (p.async = !0),
-                            (p.src =
-                                s.api_host.replace(
-                                    ".i.posthog.com",
-                                    "-assets.i.posthog.com",
-                                ) + "/static/array.js"),
-                            (r =
-                                t.getElementsByTagName(
-                                    "script",
-                                )[0]).parentNode.insertBefore(p, r);
-                        var u = e;
-                        for (
-                            void 0 !== a ? (u = e[a] = []) : (a = "posthog"),
-                                u.people = u.people || [],
-                                u.toString = function (t) {
-                                    var e = "posthog";
-                                    return (
-                                        "posthog" !== a && (e += "." + a),
-                                        t || (e += " (stub)"),
-                                        e
-                                    );
-                                },
-                                u.people.toString = function () {
-                                    return u.toString(1) + ".people (stub)";
-                                },
-                                o =
-                                    "init me ws ys ps bs capture je Di ks register register_once register_for_session unregister unregister_for_session Ps getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty Es $s createPersonProfile Is opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing Ss debug xs getPageViewId captureTraceFeedback captureTraceMetric".split(
-                                        " ",
-                                    ),
-                                n = 0;
-                            n < o.length;
-                            n++
-                        )
-                            g(u, o[n]);
-                        e._i.push([i, s, a]);
-                    }),
-                    (e.__SV = 1));
-            })(document, window.posthog || []);
-            posthog.init("phc_yJW1VjHGGwmCbbrtczfqqNxgBDbhlhOWcdzcIJEOTFE", {
-                api_host: "https://us.i.posthog.com",
-                person_profiles: "identified_only", // or 'always' to create profiles for anonymous users as well
-            });
-        </script>
-    </body>
+
+            <div>
+                <label class="block mb-1 text-gray-400">Batting Team</label>
+                <select name="bat_team" class="select w-full">
+                    {% for t in bat_teams %}<option>{{ t }}</option>{% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <label class="block mb-1 text-gray-400">Bowling Team</label>
+                <select name="bowl_team" class="select w-full">
+                    {% for t in bowl_teams %}<option>{{ t }}</option>{% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <label class="block mb-1 text-gray-400">Batsman</label>
+                <select name="batsman" class="select w-full">
+                    {% for b in batsmen %}<option>{{ b }}</option>{% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <label class="block mb-1 text-gray-400">Bowler</label>
+                <select name="bowler" class="select w-full">
+                    {% for b in bowlers %}<option>{{ b }}</option>{% endfor %}
+                </select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block mb-1 text-gray-400">Runs</label>
+                    <input type="number" name="runs" class="w-full p-2 rounded bg-gray-800 border-none" required>
+                </div>
+                <div>
+                    <label class="block mb-1 text-gray-400">Wickets</label>
+                    <input type="number" name="wickets" class="w-full p-2 rounded bg-gray-800 border-none" required>
+                </div>
+                <div>
+                    <label class="block mb-1 text-gray-400">Overs</label>
+                    <input type="number" step="0.1" name="overs" class="w-full p-2 rounded bg-gray-800 border-none" required>
+                </div>
+                <div>
+                    <label class="block mb-1 text-gray-400">Striker (0 or 1)</label>
+                    <input type="number" name="striker" class="w-full p-2 rounded bg-gray-800 border-none" required>
+                </div>
+            </div>
+
+            <button type="submit" class="w-full bg-red-500 hover:bg-red-600 p-2 rounded font-semibold mt-3">Predict Score</button>
+        </form>
+
+        {% if prediction %}
+        <div class="mt-6 text-xl font-semibold text-green-400">
+            🎯 Predicted Final Score: <span class="text-white">{{ prediction }}</span> Runs
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('.select').select2();
+        });
+    </script>
+</body>
 </html>
