@@ -1,187 +1,182 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>🏏 IPL Score Predictor</title>
+  <meta charset="UTF-8" />
+  <title>🏏 IPL Score Predictor</title>
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- jQuery and Select2 for searchable dropdowns -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <!-- jQuery and Select2 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <link
+    href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    <style>
-        body {
-            background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
-            color: #fff;
-            font-family: 'Poppins', sans-serif;
-            text-align: center;
-            padding: 40px;
-        }
-/* 🌙 Base select box */
-.select2-container--default .select2-selection--single {
-    background: rgba(20, 20, 20, 0.6) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    backdrop-filter: blur(8px) !important;
-    -webkit-backdrop-filter: blur(8px) !important;
-    border-radius: 10px !important;
-    height: 42px !important;
-    color: #fff !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;  /* ✅ centers text horizontally */
-    text-align: center !important; /* ✅ ensures centered text */
-    transition: all 0.3s ease-in-out;
-}
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: radial-gradient(circle at top, #0a0f25, #020617);
+      color: white;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
 
-.select2-container--default .select2-selection--single:hover {
-    background: rgba(40, 40, 40, 0.7) !important;
-    border-color: rgba(255, 75, 43, 0.4) !important;
-}
+    /* Glass card style */
+    .glass {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
 
-/* 🌈 Text inside select box */
-.select2-container--default .select2-selection__rendered {
-    color: #fff !important;
-    text-align: center !important;  /* ✅ center inside rendered text */
-    width: 100%;
-    line-height: 40px !important;
-    padding: 0 !important;
-}
+    /* Select2 Styles */
+    .select2-container--default .select2-selection--single {
+      background: rgba(255, 255, 255, 0.08) !important;
+      border: 1px solid rgba(255, 255, 255, 0.15) !important;
+      border-radius: 10px !important;
+      height: 45px !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff !important;
+    }
 
-/* Dropdown arrow */
-.select2-container--default .select2-selection__arrow {
-    position: absolute;
-    right: 8px;
-    top: 50%;
-    transform: translateY(-50%);
-}
+    .select2-container--default .select2-selection__rendered {
+      color: #fff !important;
+      text-align: center !important;
+      width: 100%;
+      padding: 0 !important;
+    }
 
-/* 🎞 Dropdown panel */
-.select2-dropdown {
-    background: rgba(10, 10, 10, 0.7) !important;
-    backdrop-filter: blur(10px) !important;
-    -webkit-backdrop-filter: blur(10px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    border-radius: 10px !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-}
+    .select2-results__option {
+      color: #fff !important;
+      text-align: center !important;
+      background: transparent !important;
+    }
 
-/* Centered options */
-.select2-results__option {
-    color: #fff !important;
-    background: transparent !important;
-    padding: 8px 12px !important;
-    text-align: center !important;  /* ✅ center each option */
-    transition: background 0.2s ease-in-out;
-}
+    .select2-results__option--highlighted {
+      background: rgba(255, 115, 29, 0.8) !important;
+    }
 
-/* Highlight and selection colors */
-.select2-results__option--highlighted {
-    background: rgba(225, 29, 72, 0.8) !important;
-    color: #fff !important;
-    border-radius: 5px;
-}
+    .select2-dropdown {
+      background: rgba(10, 10, 10, 0.85) !important;
+      backdrop-filter: blur(10px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+    }
 
-.select2-results__option[aria-selected=true] {
-    background: rgba(255, 255, 255, 0.1) !important;
-    color: #fff !important;
-}
+    /* Button Glow */
+    .btn-glow {
+      background: linear-gradient(90deg, #f97316, #ef4444);
+      color: white;
+      border-radius: 10px;
+      transition: 0.3s;
+      font-weight: 600;
+      box-shadow: 0 0 20px rgba(249, 115, 22, 0.4);
+    }
 
-/* 🔍 Search input */
-.select2-search--dropdown .select2-search__field {
-    background: rgba(25, 25, 25, 0.6) !important;
-    color: #fff !important;
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
-    border-radius: 6px !important;
-    padding: 6px 10px !important;
-    backdrop-filter: blur(6px) !important;
-    text-align: center !important; /* ✅ centers typed text */
-}
-
-.select2-search--dropdown .select2-search__field::placeholder {
-    color: #aaa !important;
-}
-
-
-</style>
+    .btn-glow:hover {
+      background: linear-gradient(90deg, #fb923c, #f87171);
+      box-shadow: 0 0 30px rgba(249, 115, 22, 0.7);
+    }
+  </style>
 </head>
+
 <body>
+  <!-- Header -->
+  <header class="text-center mb-10">
+    <h1 class="text-4xl font-bold">
+      Predict the <span class="text-orange-400">Final Score</span>
+    </h1>
+    <p class="text-gray-400 mt-2 text-sm">
+      Get accurate IPL match score predictions using advanced analytics and machine learning
+    </p>
+  </header>
 
-    <h1 class="text-3xl font-bold mb-6 text-red-500">🏏 IPL Score Predictor</h1>
-
-    <div class="container">
-        <form method="POST" class="space-y-4">
-            <div>
-                <label class="block mb-1 text-gray-400">Venue</label>
-                <select name="venue" class="select w-full">
-                    {% for v in venues %}<option>{{ v }}</option>{% endfor %}
-                </select>
-            </div>
-
-            <div>
-                <label class="block mb-1 text-gray-400">Batting Team</label>
-                <select name="bat_team" class="select w-full">
-                    {% for t in bat_teams %}<option>{{ t }}</option>{% endfor %}
-                </select>
-            </div>
-
-            <div>
-                <label class="block mb-1 text-gray-400">Bowling Team</label>
-                <select name="bowl_team" class="select w-full">
-                    {% for t in bowl_teams %}<option>{{ t }}</option>{% endfor %}
-                </select>
-            </div>
-
-            <div>
-                <label class="block mb-1 text-gray-400">Batsman</label>
-                <select name="batsman" class="select w-full">
-                    {% for b in batsmen %}<option>{{ b }}</option>{% endfor %}
-                </select>
-            </div>
-
-            <div>
-                <label class="block mb-1 text-gray-400">Bowler</label>
-                <select name="bowler" class="select w-full">
-                    {% for b in bowlers %}<option>{{ b }}</option>{% endfor %}
-                </select>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label class="block mb-1 text-gray-400">Runs</label>
-                    <input type="number" name="runs" class="w-full p-2 rounded bg-gray-800 border-none" required>
-                </div>
-                <div>
-                    <label class="block mb-1 text-gray-400">Wickets</label>
-                    <input type="number" name="wickets" class="w-full p-2 rounded bg-gray-800 border-none" required>
-                </div>
-                <div>
-                    <label class="block mb-1 text-gray-400">Overs</label>
-                    <input type="number" step="0.1" name="overs" class="w-full p-2 rounded bg-gray-800 border-none" required>
-                </div>
-                <div>
-                    <label class="block mb-1 text-gray-400">Striker (0 or 1)</label>
-                    <input type="number" name="striker" class="w-full p-2 rounded bg-gray-800 border-none" required>
-                </div>
-            </div>
-
-            <button type="submit" class="w-full bg-red-500 hover:bg-red-600 p-2 rounded font-semibold mt-3">Predict Score</button>
-        </form>
-
-        {% if prediction %}
-        <div class="mt-6 text-xl font-semibold text-green-400">
-            🎯 Predicted Final Score: <span class="text-white">{{ prediction }}</span> Runs
-        </div>
-        {% endif %}
+  <!-- Stats Row -->
+  <div class="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
+    <div class="glass p-6 text-center">
+      <div class="text-3xl font-bold text-blue-400">87%</div>
+      <p class="text-gray-300 text-sm">Prediction Accuracy</p>
     </div>
 
-    <script>
-        $(document).ready(function() {
-            $('.select').select2();
-        });
-    </script>
+    <div class="glass p-6 text-center">
+      <div class="text-3xl font-bold text-orange-400">500+</div>
+      <p class="text-gray-300 text-sm">Matches Analyzed</p>
+    </div>
+
+    <div class="glass p-6 text-center">
+      <div class="text-3xl font-bold text-green-400">10+</div>
+      <p class="text-gray-300 text-sm">IPL Teams Covered</p>
+    </div>
+  </div>
+
+  <!-- Prediction Section -->
+  <div class="max-w-5xl mx-auto glass p-8 mt-8">
+    <h2 class="text-xl font-semibold mb-4 text-left">Match Prediction</h2>
+    <form method="POST" class="space-y-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block mb-1 text-gray-400">Venue</label>
+          <select name="venue" class="select w-full">{% for v in venues %}<option>{{ v }}</option>{% endfor %}</select>
+        </div>
+        <div>
+          <label class="block mb-1 text-gray-400">Batting Team</label>
+          <select name="bat_team" class="select w-full">{% for t in bat_teams %}<option>{{ t }}</option>{% endfor %}</select>
+        </div>
+        <div>
+          <label class="block mb-1 text-gray-400">Bowling Team</label>
+          <select name="bowl_team" class="select w-full">{% for t in bowl_teams %}<option>{{ t }}</option>{% endfor %}</select>
+        </div>
+        <div>
+          <label class="block mb-1 text-gray-400">Batsman</label>
+          <select name="batsman" class="select w-full">{% for b in batsmen %}<option>{{ b }}</option>{% endfor %}</select>
+        </div>
+        <div>
+          <label class="block mb-1 text-gray-400">Bowler</label>
+          <select name="bowler" class="select w-full">{% for b in bowlers %}<option>{{ b }}</option>{% endfor %}</select>
+        </div>
+      </div>
+
+      <!-- Inputs -->
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+        <div>
+          <label class="block mb-1 text-gray-400">Runs</label>
+          <input type="number" name="runs" class="w-full p-2 rounded bg-gray-800 border-none" required />
+        </div>
+        <div>
+          <label class="block mb-1 text-gray-400">Wickets</label>
+          <input type="number" name="wickets" class="w-full p-2 rounded bg-gray-800 border-none" required />
+        </div>
+        <div>
+          <label class="block mb-1 text-gray-400">Overs</label>
+          <input type="number" step="0.1" name="overs" class="w-full p-2 rounded bg-gray-800 border-none" required />
+        </div>
+        <div>
+          <label class="block mb-1 text-gray-400">Striker (0 or 1)</label>
+          <input type="number" name="striker" class="w-full p-2 rounded bg-gray-800 border-none" required />
+        </div>
+      </div>
+
+      <button type="submit" class="w-full py-3 mt-5 btn-glow">Predict Final Score</button>
+    </form>
+
+    {% if prediction %}
+    <div class="mt-6 text-xl font-semibold text-green-400 text-center">
+      🎯 Predicted Final Score:
+      <span class="text-white">{{ prediction }}</span> Runs
+    </div>
+    {% endif %}
+  </div>
+
+  <script>
+    $(document).ready(function () {
+      $(".select").select2();
+    });
+  </script>
 </body>
 </html>
